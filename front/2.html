@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Validator</title>
+    <style>
+        legend {
+            background-color: #000;
+            color: #fff;
+            padding: 3px 6px;
+        }
+
+        .retMessage {
+            font: 1rem 'Fira Sans', sans-serif;
+        }
+
+        input {
+            margin: 1rem 0;
+            width: 60%;
+        }
+
+        label {
+            display: inline-block;
+            font-size: .8rem;
+            width: 20%;
+        }
+
+        input:invalid + span:after {
+            content: '✖';
+            color: #f00;
+            padding-left: 5px;
+        }
+
+        input:valid + span:after {
+            content: '✓';
+            color: #26b72b;
+            padding-left: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+
+        function validPhone(){
+            var phoneElem = document.getElementById('phone');
+            if(phoneElem.required){
+                var pattern = /^[\d]{1}\([\d]{2,3}\)[\d]{2,3}-[\d]{2,3}-[\d]{2,3}$/;
+                var phoneNuber = phoneElem.value;
+                var valid = pattern.test(phoneNuber);
+                var retMessage = '';
+                if (!valid) retMessage = 'Ошибка: номер телефона введен неверно. Введите как указано в маске: ' + phoneElem.placeholder;
+                document.getElementById('phone_label').innerHTML = retMessage;
+            }
+        }
+
+        function validEmail(){
+            var emailElem = document.getElementById('email');
+            if(emailElem.required){
+                var pattern = /^[[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/i;
+                var email = emailElem.value;
+                var valid = pattern.test(email);
+                var retMessage = '';
+                if (!valid) retMessage = 'Ошибка: e-mail введен неверно. Введите как указано в маске: ' + emailElem.placeholder;
+                document.getElementById('email_label').innerHTML = retMessage;
+            }
+        }
+
+        function validText(){
+            var textElem = document.getElementById('text');
+            if(textElem.required){
+                var text_str = textElem.value;
+                var valid = Boolean(text_str.length)
+                var retMessage = '';
+                if (!valid) retMessage = 'Ошибка: поле должно быть заполнено.';
+                document.getElementById('text_label').innerHTML = retMessage;
+            }
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <form>
+            <p id="message"></p>
+            <input type="text" id="text" name="text" placeholder="Напишите здесь что-нибудь" required />
+            <span class="validity"></span>
+            <label id="text_label" for="text"></label>
+            <br>
+            <input type="tel" id="phone" name="phone" placeholder="8(999)123-45-67" pattern="[0-9]{1}\([0-9]{3}\)[0-9]{3}-[0-9]{2}-[0-9]{2}" required/>
+            <span class="validity"></span>
+            <label id="phone_label" for="phone"></label>
+            <br>
+            <input type="email" id="email" name="email" placeholder="abcd@efg.xuz" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required />
+            <span class="validity"></span>
+            <label id ="email_label" for="email"></label>
+            <br>
+            <button type="button" onclick="validText(); validPhone(); validEmail();">Отправить</button>
+        </form>
+    </div>
+</body>
+</html>
